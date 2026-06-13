@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.zPeaw.dupe.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "InventoryScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

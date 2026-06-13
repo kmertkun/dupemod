@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "itemframeduper",
+  "version": "${version}",
+  "name": "Item Frame Duper",
+  "description": "Duper",
+  "authors": [
+    "zPeaw"
+  ],
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.zPeaw.dupe.ModMain"
+    ]
+  },
+  "mixins": [
+    "dupe.mixins.json"
+  ],
+  "depends": {
+    "java": ">=21",
+    "minecraft": ">=1.21",
+    "fabric-api": "*"
+  }
+}
