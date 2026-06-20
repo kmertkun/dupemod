@@ -30,7 +30,10 @@ public final class InventoryScreenHandler {
                 InventoryOverlay.renderDupeSlots(context, handledScreen.getX(), handledScreen.getY());
             });
 
-            ScreenKeyboardEvents.allowKeyPress(screen).register((keyScreen, key, scancode, modifiers) -> {
+            ScreenKeyboardEvents.allowKeyPress(screen).register((keyScreen, input) -> {
+                int key = input.key();
+                int scancode = input.scancode();
+                int modifiers = input.modifiers();
                 if (key == GLFW.GLFW_KEY_K && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
                     client.setScreen(new DebugScreen(screen));
                     return false;
@@ -41,8 +44,8 @@ public final class InventoryScreenHandler {
                 return true;
             });
 
-            ScreenMouseEvents.allowMouseClick(screen).register((mouseScreen, mouseX, mouseY, button) -> {
-                if (duperControls.mouseClicked(mouseX, mouseY, button)) {
+            ScreenMouseEvents.allowMouseClick(screen).register((mouseScreen, click) -> {
+                if (duperControls.mouseClicked(click, false)) {
                     return false;
                 }
                 return true;

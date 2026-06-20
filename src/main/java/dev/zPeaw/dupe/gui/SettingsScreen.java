@@ -53,8 +53,8 @@ public class SettingsScreen extends Screen {
             addDrawableChild(CyclingButtonWidget
                     .onOffBuilder(
                             Text.translatable("dupe.controls.enabled"),
-                            Text.translatable("dupe.controls.disabled"))
-                    .initially(Config.INSTANCE.replaceItemFrames)
+                            Text.translatable("dupe.controls.disabled"),
+                            Config.INSTANCE.replaceItemFrames)
                     .build(x, y, 200, 20, Text.translatable("dupe.controls.replace"), (button, value) -> {
                         Config.INSTANCE.replaceItemFrames = value;
                         Config.save();
@@ -76,24 +76,21 @@ public class SettingsScreen extends Screen {
 
         // Render Settings Row 1
         addDrawableChild(CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.render)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.render)
                 .build(x - 105, y, 100, 20, Text.literal("Render"), (button, value) -> {
                     Config.INSTANCE.render = value;
                     Config.save();
                 }));
 
         addDrawableChild(CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.renderThroughWalls)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.renderThroughWalls)
                 .build(x + 5, y, 100, 20, Text.literal("Through Walls"), (button, value) -> {
                     Config.INSTANCE.renderThroughWalls = value;
                     Config.save();
                 }));
 
         addDrawableChild(CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.renderTracers)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.renderTracers)
                 .build(x + 115, y, 100, 20, Text.literal("Tracers"), (button, value) -> {
                     Config.INSTANCE.renderTracers = value;
                     Config.save();
@@ -150,15 +147,13 @@ public class SettingsScreen extends Screen {
 
         // Route & Performance Settings
         addDrawableChild(CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.packetRoute)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.packetRoute)
                 .build(x - 55, y, 150, 20, Text.translatable("dupe.settings.packet_route"), (button, value) -> {
                     Config.INSTANCE.packetRoute = value;
                     Config.save();
                 }));
         addDrawableChild(CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.silentRoute)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.silentRoute)
                 .build(x + 105, y, 150, 20, Text.literal("Silent Switch"), (button, value) -> {
                     Config.INSTANCE.silentRoute = value;
                     Config.save();
@@ -166,8 +161,7 @@ public class SettingsScreen extends Screen {
         y += 24;
 
         antiDoubleClickButton = CyclingButtonWidget
-                .onOffBuilder(Text.translatable("dupe.controls.enabled"), Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.antiDoubleClick)
+                .onOffBuilder(Text.translatable("dupe.controls.enabled"),  Text.translatable("dupe.controls.disabled"), Config.INSTANCE.antiDoubleClick)
                 .build(x, y, 200, 20, Text.translatable("dupe.settings.anti_double_click"), (button, value) -> {
                     Config.INSTANCE.antiDoubleClick = value;
                     Config.save();
@@ -218,7 +212,7 @@ public class SettingsScreen extends Screen {
             return Text.translatable("dupe.controls.key.none");
         }
         try {
-            String keyName = InputUtil.fromKeyCode(Config.INSTANCE.dupeKey, 0).getLocalizedText().getString();
+            String keyName = InputUtil.fromKeyCode(new net.minecraft.client.input.KeyInput(Config.INSTANCE.dupeKey, 0, 0)).getLocalizedText().getString();
             return Text.translatable("dupe.controls.key.prefix", keyName);
         } catch (Exception e) {
             return Text.translatable("dupe.controls.key.prefix", "???");
@@ -226,8 +220,11 @@ public class SettingsScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (super.mouseClicked(mouseX, mouseY, button)) {
+    public boolean mouseClicked(net.minecraft.client.gui.Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
+        if (super.mouseClicked(click, doubled)) {
             return true;
         }
         if (listeningForKey) {
@@ -239,7 +236,10 @@ public class SettingsScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(net.minecraft.client.input.KeyInput input) {
+        int keyCode = input.key();
+        int scanCode = input.scancode();
+        int modifiers = input.modifiers();
         if (listeningForKey) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_DELETE) {
                 Config.INSTANCE.dupeKey = GLFW.GLFW_KEY_UNKNOWN;
@@ -253,7 +253,7 @@ public class SettingsScreen extends Screen {
             keybindButton.setMessage(getKeybindText());
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 
     @Override

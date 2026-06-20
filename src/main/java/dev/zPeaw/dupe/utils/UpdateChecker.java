@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 public class UpdateChecker {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Item Frame Dupe");
+    private static final String TAGS_API_URL = "https://api.github.com/repos/kmertkun/dupemod/tags";
+    private static final long UPDATE_CHECK_DELAY_MS = 5000L;
     public static volatile boolean isUpdateAvailable = false;
     public static volatile String latestVersion = "";
     private static final String CURRENT_VERSION = FabricLoader.getInstance()
@@ -26,9 +28,9 @@ public class UpdateChecker {
         CompletableFuture.runAsync(() -> {
             HttpURLConnection connection = null;
             try {
-                URL url = URI
-                        .create("https://api.github.com/repos/zPeaw/item-frame-dupe/releases")
-                        .toURL();
+                Thread.sleep(UPDATE_CHECK_DELAY_MS);
+
+                URL url = URI.create(TAGS_API_URL).toURL();
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setConnectTimeout(5000);
@@ -40,7 +42,7 @@ public class UpdateChecker {
 
                         if (jsonArray.size() > 0) {
                             JsonObject json = jsonArray.get(0).getAsJsonObject();
-                            String tagName = json.get("tag_name").getAsString();
+                            String tagName = json.get("name").getAsString();
 
                             String cleanTag = tagName.startsWith("v") ? tagName.substring(1) : tagName;
 

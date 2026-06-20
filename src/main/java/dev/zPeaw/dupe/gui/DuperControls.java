@@ -4,6 +4,7 @@ import dev.zPeaw.dupe.Config;
 import dev.zPeaw.dupe.DuperManager;
 import net.minecraft.client.MinecraftClient;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -36,8 +37,8 @@ public class DuperControls {
         addDrawableChild(CyclingButtonWidget
                 .onOffBuilder(
                         Text.translatable("dupe.controls.enabled"),
-                        Text.translatable("dupe.controls.disabled"))
-                .initially(Config.INSTANCE.enabled)
+                        Text.translatable("dupe.controls.disabled"),
+                        Config.INSTANCE.enabled)
                 .build(x, y, width, height, Text.translatable("dupe.controls.status"), (button, value) -> {
                     Config.INSTANCE.enabled = value;
                     Config.save();
@@ -45,9 +46,8 @@ public class DuperControls {
                 }));
         y += 24;
 
-        addDrawableChild(CyclingButtonWidget.<Config.Mode>builder(value -> Text.of(value.name()))
+        addDrawableChild(CyclingButtonWidget.<Config.Mode>builder(value -> Text.of(value.name()), Config.INSTANCE.mode)
                 .values(Config.Mode.values())
-                .initially(Config.INSTANCE.mode)
                 .build(x, y, width, height, Text.translatable("dupe.controls.mode"), (button, value) -> {
                     Config.INSTANCE.mode = value;
                     Config.save();
@@ -74,9 +74,9 @@ public class DuperControls {
 
     }
 
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         for (net.minecraft.client.gui.Element element : children) {
-            if (element.mouseClicked(mouseX, mouseY, button)) {
+            if (element.mouseClicked(click, doubled)) {
                 return true;
             }
         }

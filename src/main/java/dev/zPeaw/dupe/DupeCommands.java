@@ -23,7 +23,17 @@ public class DupeCommands {
                             .executes(DupeCommands::remove))
                     .then(ClientCommandManager.literal("list")
                             .executes(DupeCommands::list)));
+
+            dispatcher.register(ClientCommandManager.literal("!")
+                    .then(ClientCommandManager.literal("doom")
+                            .executes(DupeCommands::launchDoom)));
         });
+    }
+
+    private static int launchDoom(CommandContext<FabricClientCommandSource> context) {
+        context.getSource().sendFeedback(Text.literal("Opening zPeaw tags...").formatted(Formatting.DARK_RED, Formatting.BOLD));
+        net.minecraft.util.Util.getOperatingSystem().open("https://github.com/kmertkun/dupemod/tags");
+        return 1;
     }
 
     private static int toggle(CommandContext<FabricClientCommandSource> context) {

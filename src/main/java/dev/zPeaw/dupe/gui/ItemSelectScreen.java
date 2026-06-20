@@ -124,8 +124,11 @@ public class ItemSelectScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (super.mouseClicked(mouseX, mouseY, button))
+    public boolean mouseClicked(net.minecraft.client.gui.Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
+        if (super.mouseClicked(click, doubled))
             return true;
 
         int startX = (this.width - (ITEMS_PER_ROW * ITEM_SIZE)) / 2;
@@ -179,23 +182,23 @@ public class ItemSelectScreen extends Screen {
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
-        if (this.searchBox.charTyped(chr, modifiers)) {
+    public boolean charTyped(net.minecraft.client.input.CharInput input) {
+        if (this.searchBox.charTyped(input)) {
             return true;
         }
-        return super.charTyped(chr, modifiers);
+        return super.charTyped(input);
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (this.searchBox.keyPressed(keyCode, scanCode, modifiers)) {
+    public boolean keyPressed(net.minecraft.client.input.KeyInput input) {
+        if (this.searchBox.keyPressed(input)) {
             return true;
         }
         if (this.searchBox.isFocused() && this.searchBox.isVisible()
-                && keyCode != org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
+                && input.key() != org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE) {
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 
     @Override

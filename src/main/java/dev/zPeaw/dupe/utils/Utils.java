@@ -75,7 +75,7 @@ public class Utils {
         if (mc.player == null) {
             return;
         }
-        moveUpperSlotToHotbar(inventorySlot, mc.player.getInventory().selectedSlot);
+        moveUpperSlotToHotbar(inventorySlot, mc.player.getInventory().getSelectedSlot());
     }
 
     public static void moveUpperSlotToHotbar(int inventorySlot, int hotbarSlot) {
@@ -109,7 +109,7 @@ public class Utils {
     }
 
     private static void withSilentSelectedSlot(int hotbarSlot, Runnable action) {
-        int currentSlot = mc.player.getInventory().selectedSlot;
+        int currentSlot = mc.player.getInventory().getSelectedSlot();
         if (hotbarSlot == currentSlot) {
             action.run();
             return;
@@ -133,14 +133,22 @@ public class Utils {
 
         int packetsRequired = (int) Math.ceil(Math.abs(distance / 10));
         for (int packetNumber = 0; packetNumber < (packetsRequired - 1); packetNumber++) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+            //? if <=1.20.1 {
+            /*mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, false));
+            *///?} else {
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, false));
+            //?}
         }
 
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true));
+        //? if <=1.20.1 {
+        /*mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true, false));
+        *///?} else {
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y, pos.z, true, false));
+        //?}
     }
 
     public static void TPX(Vec3d pos) {
-        TPX(pos, mc.player.getPos());
+        TPX(pos, new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()));
     }
 
     public static BlockPos Vec3d2BlockPos(Vec3d pos) {

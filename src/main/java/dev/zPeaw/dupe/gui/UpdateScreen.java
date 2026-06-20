@@ -10,6 +10,7 @@ import net.minecraft.util.Util;
 import java.net.URI;
 
 public class UpdateScreen extends Screen {
+    private static final String TAGS_URL = "https://github.com/kmertkun/dupemod/tags";
 
     private final Screen parent;
     private final String version;
@@ -29,7 +30,7 @@ public class UpdateScreen extends Screen {
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("dupe.update.yes"), button -> {
             Util.getOperatingSystem()
-                    .open(URI.create("https://github.com/zPeaw/item-frame-dupe/releases/tag/" + version));
+                    .open(URI.create(TAGS_URL));
         }).dimensions(centerX - buttonWidth / 2, centerY - 20, buttonWidth, buttonHeight).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("dupe.update.no"), button -> {
