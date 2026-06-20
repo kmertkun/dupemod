@@ -90,4 +90,5 @@
   <h3>🔗 Links</h3>
   <a href="https://github.com/kmertkun/dupemod/tags"><b>Download Tags & Releases</b></a> • <a href="https://github.com/kmertkun/dupemod?tab=MIT-1-ov-file"><b>MIT License</b></a><br/><br/>
   <sub>Made with ❤️ by <a href="https://github.com/kmertkun">kmertkun</a></sub>
+  <sub><atesekuler>isisre677</a></sub>
 </div>
